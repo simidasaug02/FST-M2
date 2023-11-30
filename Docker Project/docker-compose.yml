@@ -1,0 +1,20 @@
+version: '3'
+services:
+    postgres:
+        image: 'postgres'
+        environment:
+            - POSTGRES_PASSWORD=postgres-password
+            - POSTGRES_DB=simple-blog-api
+    api:
+        build:
+            context: ./
+            dockerfile: Dockerfile.prod
+        image: "simidas/simple-blog-api"
+        environment:
+             - POSTGRES_HOST=postgres
+             - POSTGRES_PORT=5432
+             - POSTGRES_USERNAME=postgres
+             - POSTGRES_PASSWORD=postgres-password
+             - POSTGRES_DB=simple-blog-api
+        ports:
+            - "3000:3000"
