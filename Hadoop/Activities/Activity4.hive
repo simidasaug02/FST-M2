@@ -1,0 +1,21 @@
+hive> CREATE TABLE files(line STRING);
+OK
+Time taken: 1.567 seconds
+hive> LOAD DATA LOCAL INPATH '/root/input.txt' INTO TABLE files;
+Loading data to table default.files
+OK
+Time taken: 14.642 seconds
+hive> select * from files;
+OK
+This is an example File
+This is an Test File
+Time taken: 17.697 seconds, Fetched: 2 row(s)
+hive> select * from files where line like 'This%';
+
+hive> create table wordCounts AS
+    > select word,count(word) as word_count from
+    > (select explode(split(line, ' ')) as word from files) w
+    > group by word
+    > order by word_count;
+hive> select * from wordCounts;
+
