@@ -1,0 +1,28 @@
+inputDialogues4 = LOAD 'hdfs://user/simi/inputs/episodeIV_dialogues.txt' using PigStorage('\t') AS (name:chararray, line:charayyar);
+inputDialogues5 = LOAD 'hdfs://user/simi/inputs/episodeIV_dialogues.txt' using PigStorage('\t') AS (name:chararray, line:charayyar);
+inputDialogues6 = LOAD 'hdfs://user/simi/inputs/episodeIV_dialogues.txt' using PigStorage('\t') AS (name:chararray, line:charayyar);
+
+ranked4 = RANK inputDialogues4;
+OnlyDialogue4 = FILTER ranked4 BY (rank_inputDialogue4 >2);
+
+ranked5 = RANK inputDialogues5;
+OnlyDialogue5 = FILTER ranked4 BY (rank_inputDialogue5 >2);
+
+ranked6 = RANK inputDialogues6;
+OnlyDialogue6 = FILTER ranked6 BY (rank_inputDialogue6 >2);
+
+
+inputData = UNION OnlyDialogues4,OnlyDialogues5,OnlyDialogues6
+
+groupByName = GROUP inputData BY name;
+
+
+names = FOREACH groupByName GENERATE $0 a name ,COUNT($1) as no_of_lines;
+namesOrdered = ORDER names BY no_of_lines DESC;
+
+rmf hdfs:///user/simi/outputs;
+
+STORE namesOrdered INTO 'hdfs:///user/simi/outputs' USING PigStorage('\t');
+
+
+
