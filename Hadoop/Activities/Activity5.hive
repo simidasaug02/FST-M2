@@ -1,0 +1,11 @@
+$ vim EmpData.csv
+$ hive
+hive> SELECT * FROM employee;
+hive> SELECT COUNT(*) FROM employee;
+hive> SELECT  id, name FROM employee;
+hive> SELECT * FROM employee WHERE salary > 30000;
+hive> SELECT count(*) FROM employee; 
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/export' 
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM emp.employee;
+$ cat /path/to/result/* > output.csv
